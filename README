@@ -105,6 +105,10 @@ Parse the list of command-line arguments, input into commands and call
 them.  Returns {{#t}} on successful completion of calling commands, {{#f}}
 if parsing was aborted.
 
+This procedure may signal an {{unknown-command}} condition when a
+command was given on the command-line which isn't defined in any of
+the command groups.
+
 <parameter>groups</parameter>
 
 The groups parameter holds the list of command-groups that {{parse}} draws

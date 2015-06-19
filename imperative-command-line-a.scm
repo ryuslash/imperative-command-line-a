@@ -138,6 +138,10 @@
 (define (abort-parse)
   (signal (make-property-condition 'abort-parse)))
 
+(define (unknown-command name)
+  (let ((msg (sprintf "unexpected symbol ~S~%" name)))
+    (make-property-condition 'unknown-command 'name name 'message msg)))
+
 (define (%parse input)
   (let* ((callinfos (map (lambda (x) (list)) (groups))))
     (let loop ((input input)
@@ -156,7 +160,7 @@
                                def)
                              (groups))))
           (unless def
-            (error (sprintf "unexpected symbol ~S~%" opsym)))
+            (signal (unknown-command opsym)))
           (let ((narg (length (command-args def))))
             (when (< count narg)
               (error (sprintf "~A requires ~A arguments, but only ~A were given"
